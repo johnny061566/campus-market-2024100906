@@ -1,0 +1,250 @@
+{
+  "trades": [
+    {
+      "id": 1,
+      "title": "高等数学同济第七版教材",
+      "price": 18,
+      "category": "学习资料",
+      "condition": "九成新",
+      "publisher": "李同学",
+      "publishedAt": "2026-06-20 10:30",
+      "location": "图书馆北门",
+      "image": "",
+      "status": "open",
+      "description": "含少量课堂笔记，适合期末复习使用。"
+    },
+    {
+      "id": 2,
+      "title": "宿舍护眼台灯",
+      "price": 35,
+      "category": "生活用品",
+      "condition": "八成新",
+      "publisher": "周同学",
+      "publishedAt": "2026-06-21 19:15",
+      "location": "6号宿舍楼",
+      "image": "",
+      "status": "open",
+      "description": "三档亮度，USB 供电，晚自习和宿舍桌面都能用。"
+    },
+    {
+      "id": 3,
+      "title": "校园通勤自行车",
+      "price": 120,
+      "category": "出行工具",
+      "condition": "正常使用痕迹",
+      "publisher": "陈同学",
+      "publishedAt": "2026-06-22 12:40",
+      "location": "东门车棚",
+      "image": "",
+      "status": "open",
+      "description": "车况正常，适合校内通勤，支持线下看车。"
+    },
+    {
+      "id": 4,
+      "title": "英语四级真题资料",
+      "price": 12,
+      "category": "考试资料",
+      "condition": "全新未拆",
+      "publisher": "王同学",
+      "publishedAt": "2026-06-23 08:20",
+      "location": "教学楼 A 区",
+      "image": "",
+      "status": "done",
+      "description": "包含近年真题和听力材料，适合备考。"
+    },
+    {
+      "id": 5,
+      "title": "小米蓝牙键盘",
+      "price": 45,
+      "category": "数码配件",
+      "condition": "七成新",
+      "publisher": "赵同学",
+      "publishedAt": "2026-06-24 16:05",
+      "location": "实验楼 2 楼",
+      "image": "",
+      "status": "closed",
+      "description": "按键灵敏，适合平板或笔记本外接使用。"
+    }
+  ],
+  "lostFounds": [
+    {
+      "id": 1,
+      "title": "寻找黑色校园卡卡套",
+      "type": "lost",
+      "itemName": "校园卡",
+      "location": "图书馆三楼自习区",
+      "time": "2026-06-24 10:30",
+      "contact": "李同学 13800000001",
+      "description": "黑色卡套，内有校园卡和门禁卡。",
+      "status": "open"
+    },
+    {
+      "id": 2,
+      "title": "招领蓝色保温杯",
+      "type": "found",
+      "itemName": "保温杯",
+      "location": "第二食堂窗口旁",
+      "time": "2026-06-23 18:20",
+      "contact": "食堂服务台",
+      "description": "杯身有贴纸，已放在二食堂服务台。",
+      "status": "open"
+    },
+    {
+      "id": 3,
+      "title": "寻找无线耳机充电盒",
+      "type": "lost",
+      "itemName": "耳机充电盒",
+      "location": "操场看台",
+      "time": "2026-06-22 20:00",
+      "contact": "王同学 13800000002",
+      "description": "白色充电盒，可能落在操场看台第二排。",
+      "status": "closed"
+    },
+    {
+      "id": 4,
+      "title": "招领一本概率论笔记",
+      "type": "found",
+      "itemName": "课堂笔记",
+      "location": "教学楼 B203",
+      "time": "2026-06-21 15:45",
+      "contact": "B 楼物业前台",
+      "description": "封面写有概率论复习提纲。",
+      "status": "done"
+    },
+    {
+      "id": 5,
+      "title": "寻找灰色雨伞",
+      "type": "lost",
+      "itemName": "雨伞",
+      "location": "校医院门口",
+      "time": "2026-06-20 09:10",
+      "contact": "陈同学 13800000003",
+      "description": "灰色长柄伞，伞柄处有姓名贴。",
+      "status": "open"
+    }
+  ],
+  "groupBuys": [
+    {
+      "id": 1,
+      "title": "今晚火锅拼单",
+      "type": "外卖拼单",
+      "targetCount": 5,
+      "currentCount": 3,
+      "deadline": "2026-06-29 18:30",
+      "location": "校门口自取",
+      "publisher": "赵同学",
+      "status": "open",
+      "description": "满 5 人免配送费，口味可备注。"
+    },
+    {
+      "id": 2,
+      "title": "四级听力晨练搭子",
+      "type": "学习搭子",
+      "targetCount": 4,
+      "currentCount": 2,
+      "deadline": "2026-07-03 07:30",
+      "location": "图书馆大厅",
+      "publisher": "刘同学",
+      "status": "open",
+      "description": "工作日早上 7:30 打卡，互相提醒。"
+    },
+    {
+      "id": 3,
+      "title": "周末羽毛球组队",
+      "type": "运动组队",
+      "targetCount": 8,
+      "currentCount": 6,
+      "deadline": "2026-07-04 16:00",
+      "location": "体育馆 2 号场",
+      "publisher": "孙同学",
+      "status": "open",
+      "description": "费用 AA，已有球拍和羽毛球。"
+    },
+    {
+      "id": 4,
+      "title": "水果团购拼箱",
+      "type": "团购拼单",
+      "targetCount": 10,
+      "currentCount": 10,
+      "deadline": "2026-06-28 20:00",
+      "location": "5号宿舍楼下",
+      "publisher": "黄同学",
+      "status": "done",
+      "description": "已成团，晚上统一取货。"
+    },
+    {
+      "id": 5,
+      "title": "期末自习教室搭子",
+      "type": "学习搭子",
+      "targetCount": 6,
+      "currentCount": 1,
+      "deadline": "2026-07-01 19:00",
+      "location": "教学楼 C301",
+      "publisher": "吴同学",
+      "status": "open",
+      "description": "晚上安静自习，两小时专注打卡。"
+    }
+  ],
+  "errands": [
+    {
+      "id": 1,
+      "title": "代取东门快递",
+      "taskType": "取快递",
+      "reward": 5,
+      "pickupLocation": "东门驿站",
+      "deliveryLocation": "6号宿舍楼",
+      "deadline": "2026-06-29 20:00",
+      "publisher": "林同学",
+      "status": "open",
+      "description": "小件快递，顺路带回即可。"
+    },
+    {
+      "id": 2,
+      "title": "帮买晚饭",
+      "taskType": "代买",
+      "reward": 3,
+      "pickupLocation": "一食堂",
+      "deliveryLocation": "实验楼 4 楼",
+      "deadline": "2026-06-29 18:20",
+      "publisher": "郑同学",
+      "status": "open",
+      "description": "需要一份盖浇饭，费用另结。"
+    },
+    {
+      "id": 3,
+      "title": "打印资料顺路带回",
+      "taskType": "打印代取",
+      "reward": 4,
+      "pickupLocation": "校内打印店",
+      "deliveryLocation": "教学楼 A 区",
+      "deadline": "2026-06-30 09:30",
+      "publisher": "唐同学",
+      "status": "open",
+      "description": "已付款，只需报手机号取件。"
+    },
+    {
+      "id": 4,
+      "title": "图书馆还书",
+      "taskType": "代办",
+      "reward": 6,
+      "pickupLocation": "3号宿舍楼",
+      "deliveryLocation": "图书馆还书处",
+      "deadline": "2026-06-29 16:00",
+      "publisher": "马同学",
+      "status": "closed",
+      "description": "两本专业书，需今天下午归还。"
+    },
+    {
+      "id": 5,
+      "title": "帮取校医院药品",
+      "taskType": "代取",
+      "reward": 8,
+      "pickupLocation": "校医院药房",
+      "deliveryLocation": "研究生公寓",
+      "deadline": "2026-06-30 12:00",
+      "publisher": "何同学",
+      "status": "open",
+      "description": "需凭取药单取药，可提前电话联系。"
+    }
+  ]
+}

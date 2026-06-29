@@ -1,24 +1,32 @@
 <script setup lang="ts">
-const groups = [
-  {
-    title: '今晚火锅拼单',
-    current: 3,
-    target: 5,
-    description: '校门口自取，满 5 人免配送费。',
-  },
-  {
-    title: '四级听力晨练搭子',
-    current: 2,
-    target: 4,
-    description: '工作日早上 7:30，图书馆大厅集合。',
-  },
-  {
-    title: '周末羽毛球组队',
-    current: 6,
-    target: 8,
-    description: '体育馆 2 号场，费用 AA。',
-  },
-]
+import { onMounted, ref } from 'vue'
+
+import { getGroupBuys, type GroupBuyItem } from '@/api/groupBuy'
+import EmptyState from '@/components/EmptyState.vue'
+import ItemCard from '@/components/ItemCard.vue'
+
+const groups = ref<GroupBuyItem[]>([])
+const loading = ref(false)
+const errorMessage = ref('')
+
+function progress(group: GroupBuyItem) {
+  return Math.min(100, Math.round((group.currentCount / group.targetCount) * 100))
+}
+
+async function loadGroupBuys() {
+  loading.value = true
+  errorMessage.value = ''
+
+  try {
+    groups.value = await getGroupBuys()
+  } catch {
+    errorMessage.value = '拼单搭子数据加载失败，请确认 Mock 服务已启动。'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(loadGroupBuys)
 </script>
 
 <template>
@@ -28,39 +36,60 @@ const groups = [
       <p>展示拼单、搭子和组队信息，让同学快速找到一起行动的人。</p>
     </div>
 
-    <el-row :gutter="16">
-      <el-col v-for="group in groups" :key="group.title" :xs="24" :md="8">
-        <el-card class="section-card group-card" shadow="hover">
-          <h3>{{ group.title }}</h3>
-          <p>{{ group.description }}</p>
-          <el-progress
-            :percentage="Math.round((group.current / group.target) * 100)"
-          />
-          <span>{{ group.current }}/{{ group.target }} 人已加入</span>
-        </el-card>
-      </el-col>
-    </el-row>
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" show-icon />
+
+    <div v-loading="loading" class="list-area">
+      <EmptyState
+        v-if="!loading && groups.length === 0"
+        description="暂无拼单搭子信息"
+        action-text="重新加载"
+        @action="loadGroupBuys"
+      />
+
+      <el-row v-else :gutter="16">
+        <el-col v-for="group in groups" :key="group.id" :xs="24" :md="8">
+          <ItemCard
+            class="group-card"
+            :title="group.title"
+            :description="group.description"
+            :tag="group.type"
+            tag-type="primary"
+            :meta="[
+              { label: '地点', value: group.location },
+              { label: '截止', value: group.deadline },
+              { label: '发布人', value: group.publisher },
+            ]"
+          >
+            <template #footer>
+              <div class="progress-line">
+                <el-progress :percentage="progress(group)" />
+                <span>{{ group.currentCount }}/{{ group.targetCount }} 人已加入</span>
+              </div>
+            </template>
+          </ItemCard>
+        </el-col>
+      </el-row>
+    </div>
   </section>
 </template>
 
 <style scoped>
+.list-area {
+  min-height: 260px;
+}
+
 .group-card {
   margin-bottom: 16px;
 }
 
-h3 {
-  margin: 0 0 10px;
+.progress-line {
+  width: 100%;
 }
 
-p {
-  min-height: 52px;
+.progress-line span {
+  display: block;
+  margin-top: 8px;
   color: #6b7280;
-  line-height: 1.6;
-}
-
-span {
-  display: inline-block;
-  margin-top: 10px;
-  color: #6b7280;
+  font-size: 14px;
 }
 </style>

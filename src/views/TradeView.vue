@@ -1,24 +1,34 @@
 <script setup lang="ts">
-const products = [
-  {
-    title: '二手高等数学教材',
-    price: '18 元',
-    tag: '学习资料',
-    description: '九成新，含少量课堂笔记，适合期末复习。',
-  },
-  {
-    title: '宿舍护眼台灯',
-    price: '35 元',
-    tag: '生活用品',
-    description: '三档亮度，USB 供电，晚自习和宿舍桌面都能用。',
-  },
-  {
-    title: '校园通勤自行车',
-    price: '120 元',
-    tag: '出行工具',
-    description: '车况正常，适合校内通勤，支持线下看车。',
-  },
-]
+import { onMounted, ref } from 'vue'
+
+import { getTrades, type TradeItem } from '@/api/trade'
+import EmptyState from '@/components/EmptyState.vue'
+import ItemCard from '@/components/ItemCard.vue'
+
+const products = ref<TradeItem[]>([])
+const loading = ref(false)
+const errorMessage = ref('')
+
+const statusText: Record<TradeItem['status'], string> = {
+  open: '可交易',
+  closed: '已关闭',
+  done: '已完成',
+}
+
+async function loadTrades() {
+  loading.value = true
+  errorMessage.value = ''
+
+  try {
+    products.value = await getTrades()
+  } catch {
+    errorMessage.value = '二手交易数据加载失败，请确认 Mock 服务已启动。'
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(loadTrades)
 </script>
 
 <template>
@@ -28,46 +38,58 @@ const products = [
       <p>展示校园内发布的二手商品列表，帮助同学低成本流转闲置物品。</p>
     </div>
 
-    <el-row :gutter="16">
-      <el-col v-for="product in products" :key="product.title" :xs="24" :md="8">
-        <el-card class="section-card product-card" shadow="hover">
-          <div class="card-header">
-            <h3>{{ product.title }}</h3>
-            <el-tag type="success">{{ product.tag }}</el-tag>
-          </div>
-          <p>{{ product.description }}</p>
-          <strong>{{ product.price }}</strong>
-        </el-card>
-      </el-col>
-    </el-row>
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" show-icon />
+
+    <div v-loading="loading" class="list-area">
+      <EmptyState
+        v-if="!loading && products.length === 0"
+        description="暂无二手交易信息"
+        action-text="重新加载"
+        @action="loadTrades"
+      />
+
+      <el-row v-else :gutter="16">
+        <el-col v-for="product in products" :key="product.id" :xs="24" :md="8">
+          <ItemCard
+            class="product-card"
+            :title="product.title"
+            :description="product.description"
+            :tag="product.category"
+            tag-type="success"
+            :meta="[
+              { label: '成色', value: product.condition },
+              { label: '地点', value: product.location },
+              { label: '发布人', value: product.publisher },
+              { label: '状态', value: statusText[product.status] },
+            ]"
+          >
+            <template #footer>
+              <strong>{{ product.price }} 元</strong>
+              <span>{{ product.publishedAt }}</span>
+            </template>
+          </ItemCard>
+        </el-col>
+      </el-row>
+    </div>
   </section>
 </template>
 
 <style scoped>
+.list-area {
+  min-height: 260px;
+}
+
 .product-card {
   margin-bottom: 16px;
-}
-
-.card-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-h3 {
-  margin: 0;
-  font-size: 18px;
-}
-
-p {
-  min-height: 54px;
-  color: #6b7280;
-  line-height: 1.6;
 }
 
 strong {
   color: #f56c6c;
   font-size: 22px;
+}
+
+span {
+  color: #6b7280;
+  font-size: 13px;
 }
 </style>
