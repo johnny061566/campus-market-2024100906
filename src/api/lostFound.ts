@@ -12,7 +12,14 @@ export interface LostFoundItem {
   status: 'open' | 'closed' | 'done'
 }
 
+export type CreateLostFoundPayload = Omit<LostFoundItem, 'id'>
+
 export async function getLostFounds() {
   const { data } = await http.get<LostFoundItem[]>('/lostFounds')
+  return data
+}
+
+export async function createLostFound(payload: CreateLostFoundPayload) {
+  const { data } = await http.post<LostFoundItem>('/lostFounds', payload)
   return data
 }

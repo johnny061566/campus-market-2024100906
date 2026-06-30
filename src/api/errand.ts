@@ -13,7 +13,14 @@ export interface ErrandItem {
   description: string
 }
 
+export type CreateErrandPayload = Omit<ErrandItem, 'id'>
+
 export async function getErrands() {
   const { data } = await http.get<ErrandItem[]>('/errands')
+  return data
+}
+
+export async function createErrand(payload: CreateErrandPayload) {
+  const { data } = await http.post<ErrandItem>('/errands', payload)
   return data
 }

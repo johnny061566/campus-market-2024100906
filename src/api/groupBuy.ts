@@ -13,7 +13,14 @@ export interface GroupBuyItem {
   description: string
 }
 
+export type CreateGroupBuyPayload = Omit<GroupBuyItem, 'id'>
+
 export async function getGroupBuys() {
   const { data } = await http.get<GroupBuyItem[]>('/groupBuys')
+  return data
+}
+
+export async function createGroupBuy(payload: CreateGroupBuyPayload) {
+  const { data } = await http.post<GroupBuyItem>('/groupBuys', payload)
   return data
 }

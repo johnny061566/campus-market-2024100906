@@ -64,6 +64,19 @@
       "image": "",
       "status": "closed",
       "description": "按键灵敏，适合平板或笔记本外接使用。"
+    },
+    {
+      "image": "",
+      "description": "用于验证 Day4 发布流程的数据。",
+      "price": 9,
+      "category": "学习资料",
+      "status": "open",
+      "publishedAt": "2026-06-30 10:30",
+      "condition": "八成新",
+      "publisher": "测试用户",
+      "location": "图书馆门口",
+      "title": "Day4测试二手书",
+      "id": 6
     }
   ],
   "lostFounds": [

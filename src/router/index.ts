@@ -9,22 +9,22 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue'),
     },
     {
-      path: '/trade',
+      path: '/trades',
       name: 'Trade',
       component: () => import('../views/TradeView.vue'),
     },
     {
-      path: '/lost-found',
+      path: '/lostFounds',
       name: 'LostFound',
       component: () => import('../views/LostFoundView.vue'),
     },
     {
-      path: '/group-buy',
+      path: '/groupBuys',
       name: 'GroupBuy',
       component: () => import('../views/GroupBuyView.vue'),
     },
     {
-      path: '/errand',
+      path: '/errands',
       name: 'Errand',
       component: () => import('../views/ErrandView.vue'),
     },

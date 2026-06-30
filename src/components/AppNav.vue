@@ -2,10 +2,10 @@
   <nav class="app-nav">
     <el-menu :default-active="activePath" mode="horizontal" router>
       <el-menu-item index="/">首页</el-menu-item>
-      <el-menu-item index="/trade">二手交易</el-menu-item>
-      <el-menu-item index="/lost-found">失物招领</el-menu-item>
-      <el-menu-item index="/group-buy">拼单搭子</el-menu-item>
-      <el-menu-item index="/errand">跑腿委托</el-menu-item>
+      <el-menu-item index="/trades">二手交易</el-menu-item>
+      <el-menu-item index="/lostFounds">失物招领</el-menu-item>
+      <el-menu-item index="/groupBuys">拼单搭子</el-menu-item>
+      <el-menu-item index="/errands">跑腿委托</el-menu-item>
       <el-menu-item index="/message">消息</el-menu-item>
       <el-menu-item index="/user">个人中心</el-menu-item>
     </el-menu>

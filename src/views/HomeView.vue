@@ -2,22 +2,22 @@
 const categories = [
   {
     title: '二手交易',
-    path: '/trade',
+    path: '/trades',
     description: '教材、数码、宿舍用品等闲置物品流转。',
   },
   {
     title: '失物招领',
-    path: '/lost-found',
+    path: '/lostFounds',
     description: '登记丢失物品，也可以发布拾到信息。',
   },
   {
     title: '拼单搭子',
-    path: '/group-buy',
+    path: '/groupBuys',
     description: '拼外卖、组队学习、活动搭子集中展示。',
   },
   {
     title: '跑腿委托',
-    path: '/errand',
+    path: '/errands',
     description: '取快递、代买、临时帮忙等任务委托。',
   },
 ]
