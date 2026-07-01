@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { ElMessage } from 'element-plus'
 
+import { getErrands, type ErrandItem } from '@/api/errand'
+import { getGroupBuys, type GroupBuyItem } from '@/api/groupBuy'
+import { getLostFounds, type LostFoundItem } from '@/api/lostFound'
+import { getTrades, type TradeItem } from '@/api/trade'
 import {
   favoriteRouteMap,
   favoriteTypeText,
@@ -9,25 +14,22 @@ import {
 } from '@/stores/favorite'
 import { useUserStore } from '@/stores/user'
 
+interface MyPublishItem {
+  id: number
+  type: keyof typeof favoriteTypeText
+  title: string
+  description: string
+  tag: string
+  location: string
+  time: string
+}
+
 const userStore = useUserStore()
 const favoriteStore = useFavoriteStore()
 
 const user = computed(() => userStore.currentUser)
-
-const myPublishTips = computed(() => [
-  {
-    label: '二手交易',
-    content: `发布时会自动记录为 ${userStore.displayName}`,
-  },
-  {
-    label: '拼单搭子',
-    content: '可根据 publisher 字段继续扩展查询',
-  },
-  {
-    label: '失物招领',
-    content: '联系信息已使用当前用户姓名',
-  },
-])
+const myPublishes = ref<MyPublishItem[]>([])
+const publishLoading = ref(false)
 
 const stats = computed(() => [
   {
@@ -36,7 +38,7 @@ const stats = computed(() => [
   },
   {
     label: '我的发布',
-    value: myPublishTips.value.length,
+    value: myPublishes.value.length,
   },
   {
     label: '我的收藏',
@@ -47,6 +49,84 @@ const stats = computed(() => [
 function removeFavorite(item: FavoriteItem) {
   favoriteStore.removeFavorite(item.type, item.id)
 }
+
+function isCurrentPublisher(value: string) {
+  return value.trim() === userStore.displayName
+}
+
+function fromTrade(item: TradeItem): MyPublishItem {
+  return {
+    id: item.id,
+    type: 'trade',
+    title: item.title,
+    description: item.description,
+    tag: item.category,
+    location: item.location,
+    time: item.publishedAt,
+  }
+}
+
+function fromLostFound(item: LostFoundItem): MyPublishItem {
+  return {
+    id: item.id,
+    type: 'lostFound',
+    title: item.title,
+    description: item.description,
+    tag: item.type === 'lost' ? '寻物' : '招领',
+    location: item.location,
+    time: item.time,
+  }
+}
+
+function fromGroupBuy(item: GroupBuyItem): MyPublishItem {
+  return {
+    id: item.id,
+    type: 'groupBuy',
+    title: item.title,
+    description: item.description,
+    tag: item.type,
+    location: item.location,
+    time: item.deadline,
+  }
+}
+
+function fromErrand(item: ErrandItem): MyPublishItem {
+  return {
+    id: item.id,
+    type: 'errand',
+    title: item.title,
+    description: item.description,
+    tag: item.taskType,
+    location: `${item.pickupLocation} -> ${item.deliveryLocation}`,
+    time: item.deadline,
+  }
+}
+
+async function loadMyPublishes() {
+  publishLoading.value = true
+
+  try {
+    const [trades, lostFounds, groupBuys, errands] = await Promise.all([
+      getTrades(),
+      getLostFounds(),
+      getGroupBuys(),
+      getErrands(),
+    ])
+
+    myPublishes.value = [
+      ...trades.filter((item) => isCurrentPublisher(item.publisher)).map(fromTrade),
+      ...lostFounds.filter((item) => isCurrentPublisher(item.contact)).map(fromLostFound),
+      ...groupBuys.filter((item) => isCurrentPublisher(item.publisher)).map(fromGroupBuy),
+      ...errands.filter((item) => isCurrentPublisher(item.publisher)).map(fromErrand),
+    ]
+  } catch {
+    ElMessage.error('我的发布加载失败，请确认 Mock 服务已启动')
+  } finally {
+    publishLoading.value = false
+  }
+}
+
+onMounted(loadMyPublishes)
 </script>
 
 <template>
@@ -81,11 +161,21 @@ function removeFavorite(item: FavoriteItem) {
             <h3>我的发布</h3>
           </template>
 
-          <el-timeline>
-            <el-timeline-item v-for="item in myPublishTips" :key="item.label" :timestamp="item.label">
-              <p>{{ item.content }}</p>
-            </el-timeline-item>
-          </el-timeline>
+          <div v-loading="publishLoading" class="publish-panel">
+            <el-empty v-if="!publishLoading && myPublishes.length === 0" description="暂无发布" />
+
+            <div v-else class="publish-list">
+              <article v-for="item in myPublishes" :key="`${item.type}-${item.id}`">
+                <div>
+                  <el-tag size="small">{{ favoriteTypeText[item.type] }}</el-tag>
+                  <h4>{{ item.title }}</h4>
+                  <p>{{ item.description }}</p>
+                  <span>{{ item.tag }} · {{ item.location }} · {{ item.time }}</span>
+                </div>
+                <router-link :to="favoriteRouteMap[item.type]">查看</router-link>
+              </article>
+            </div>
+          </div>
         </el-card>
       </el-col>
 
@@ -165,12 +255,18 @@ p {
   margin: 0;
 }
 
-.favorite-list {
+.publish-panel {
+  min-height: 220px;
+}
+
+.favorite-list,
+.publish-list {
   display: grid;
   gap: 12px;
 }
 
-.favorite-list article {
+.favorite-list article,
+.publish-list article {
   display: flex;
   justify-content: space-between;
   gap: 16px;
@@ -180,11 +276,18 @@ p {
   background: #ffffff;
 }
 
-.favorite-list span {
+.favorite-list span,
+.publish-list span {
   display: block;
   margin-top: 8px;
   color: #6b7280;
   font-size: 13px;
+}
+
+.publish-list a {
+  color: #409eff;
+  font-weight: 700;
+  line-height: 24px;
 }
 
 .favorite-actions {
@@ -200,7 +303,8 @@ p {
 }
 
 @media (max-width: 640px) {
-  .favorite-list article {
+  .favorite-list article,
+  .publish-list article {
     flex-direction: column;
   }
 }
