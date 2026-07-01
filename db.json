@@ -77,6 +77,32 @@
       "location": "图书馆门口",
       "title": "Day4测试二手书",
       "id": 6
+    },
+    {
+      "title": "1",
+      "location": "1",
+      "description": "1",
+      "status": "open",
+      "price": 5,
+      "category": "1",
+      "condition": "1",
+      "publisher": "校园用户",
+      "publishedAt": "2026-07-01 09:07",
+      "image": "",
+      "id": 7
+    },
+    {
+      "title": "1",
+      "location": "1",
+      "description": "1",
+      "status": "open",
+      "price": 1,
+      "category": "1",
+      "condition": "1",
+      "publisher": "校园用户",
+      "publishedAt": "2026-07-01 09:12",
+      "image": "",
+      "id": 8
     }
   ],
   "lostFounds": [
