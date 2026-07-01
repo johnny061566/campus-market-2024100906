@@ -3,7 +3,9 @@ import { onMounted, ref } from 'vue'
 
 import { getLostFounds, type LostFoundItem } from '@/api/lostFound'
 import EmptyState from '@/components/EmptyState.vue'
+import { useFavoriteStore, type FavoriteItem } from '@/stores/favorite'
 
+const favoriteStore = useFavoriteStore()
 const notices = ref<LostFoundItem[]>([])
 const loading = ref(false)
 const errorMessage = ref('')
@@ -30,6 +32,21 @@ async function loadLostFounds() {
   } finally {
     loading.value = false
   }
+}
+
+function toFavorite(notice: LostFoundItem): FavoriteItem {
+  return {
+    id: notice.id,
+    type: 'lostFound',
+    title: notice.title,
+    description: notice.description,
+    tag: typeText[notice.type],
+    location: notice.location,
+  }
+}
+
+function toggleFavorite(notice: LostFoundItem) {
+  favoriteStore.toggleFavorite(toFavorite(notice))
 }
 
 onMounted(loadLostFounds)
@@ -68,6 +85,13 @@ onMounted(loadLostFounds)
         <el-table-column label="状态" width="100">
           <template #default="{ row }: { row: LostFoundItem }">
             {{ statusText[row.status] }}
+          </template>
+        </el-table-column>
+        <el-table-column label="收藏" width="100" fixed="right">
+          <template #default="{ row }: { row: LostFoundItem }">
+            <el-button size="small" @click="toggleFavorite(row)">
+              {{ favoriteStore.isFavorite('lostFound', row.id) ? '已收藏' : '收藏' }}
+            </el-button>
           </template>
         </el-table-column>
       </el-table>

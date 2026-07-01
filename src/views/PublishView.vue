@@ -8,10 +8,12 @@ import { createGroupBuy } from '@/api/groupBuy'
 import { createLostFound } from '@/api/lostFound'
 import { createTrade } from '@/api/trade'
 import FormField from '@/components/FormField.vue'
+import { useUserStore } from '@/stores/user'
 
 type PublishType = 'trade' | 'lostFound' | 'groupBuy' | 'errand'
 
 const router = useRouter()
+const userStore = useUserStore()
 const publishType = ref<PublishType>('trade')
 const submitting = ref(false)
 
@@ -156,7 +158,7 @@ async function handleSubmit() {
         price: form.price,
         category: form.category,
         condition: form.condition,
-        publisher: '我',
+        publisher: userStore.displayName,
         publishedAt: formatNow(),
         image: '',
       })
@@ -169,7 +171,7 @@ async function handleSubmit() {
         type: form.lostFoundType,
         itemName: form.itemName,
         time: form.eventTime,
-        contact: '我',
+        contact: userStore.displayName,
       })
       await router.push('/lostFounds')
     }
@@ -181,7 +183,7 @@ async function handleSubmit() {
         targetCount: form.targetCount,
         currentCount: 1,
         deadline: form.deadline,
-        publisher: '我',
+        publisher: userStore.displayName,
       })
       await router.push('/groupBuys')
     }
@@ -194,7 +196,7 @@ async function handleSubmit() {
         pickupLocation: form.from,
         deliveryLocation: form.to,
         deadline: form.deadline,
-        publisher: '我',
+        publisher: userStore.displayName,
         status: 'open',
         description: form.description,
       })
@@ -223,6 +225,11 @@ watch(publishType, () => {
     </div>
 
     <form class="publish-form section-card" @submit.prevent="handleSubmit">
+      <div class="publisher-line">
+        <span>当前发布人</span>
+        <strong>{{ userStore.displayName }}</strong>
+      </div>
+
       <FormField label="发布类型" required>
         <select v-model="publishType">
           <option value="trade">二手交易</option>
@@ -401,6 +408,26 @@ button {
 button:disabled {
   cursor: not-allowed;
   opacity: 0.7;
+}
+
+.publisher-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.publisher-line span {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.publisher-line strong {
+  color: #111827;
 }
 
 .primary {

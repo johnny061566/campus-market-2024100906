@@ -7,7 +7,10 @@
       <el-menu-item index="/groupBuys">拼单搭子</el-menu-item>
       <el-menu-item index="/errands">跑腿委托</el-menu-item>
       <el-menu-item index="/message">消息</el-menu-item>
-      <el-menu-item index="/user">个人中心</el-menu-item>
+      <el-menu-item index="/user">
+        个人中心
+        <el-badge v-if="favoriteStore.count > 0" :value="favoriteStore.count" class="favorite-badge" />
+      </el-menu-item>
     </el-menu>
   </nav>
 </template>
@@ -16,7 +19,10 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+import { useFavoriteStore } from '@/stores/favorite'
+
 const route = useRoute()
+const favoriteStore = useFavoriteStore()
 const activePath = computed(() => route.path)
 </script>
 
@@ -35,5 +41,9 @@ const activePath = computed(() => route.path)
 
 .app-nav :deep(.el-menu-item) {
   white-space: nowrap;
+}
+
+.favorite-badge {
+  margin-left: 6px;
 }
 </style>

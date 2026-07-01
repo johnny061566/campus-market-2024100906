@@ -3,7 +3,9 @@ import { onMounted, ref } from 'vue'
 
 import { getErrands, type ErrandItem } from '@/api/errand'
 import EmptyState from '@/components/EmptyState.vue'
+import { useFavoriteStore, type FavoriteItem } from '@/stores/favorite'
 
+const favoriteStore = useFavoriteStore()
 const tasks = ref<ErrandItem[]>([])
 const loading = ref(false)
 const errorMessage = ref('')
@@ -25,6 +27,21 @@ async function loadErrands() {
   } finally {
     loading.value = false
   }
+}
+
+function toFavorite(task: ErrandItem): FavoriteItem {
+  return {
+    id: task.id,
+    type: 'errand',
+    title: task.title,
+    description: task.description,
+    tag: task.taskType,
+    location: `${task.pickupLocation} -> ${task.deliveryLocation}`,
+  }
+}
+
+function toggleFavorite(task: ErrandItem) {
+  favoriteStore.toggleFavorite(toFavorite(task))
 }
 
 onMounted(loadErrands)
@@ -64,6 +81,9 @@ onMounted(loadErrands)
             <span>截止：{{ task.deadline }}</span>
             <span>状态：{{ statusText[task.status] }}</span>
             <span>发布人：{{ task.publisher }}</span>
+            <el-button size="small" @click="toggleFavorite(task)">
+              {{ favoriteStore.isFavorite('errand', task.id) ? '已收藏' : '收藏' }}
+            </el-button>
           </div>
         </el-timeline-item>
       </el-timeline>

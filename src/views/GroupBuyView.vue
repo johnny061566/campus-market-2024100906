@@ -4,7 +4,9 @@ import { onMounted, ref } from 'vue'
 import { getGroupBuys, type GroupBuyItem } from '@/api/groupBuy'
 import EmptyState from '@/components/EmptyState.vue'
 import ItemCard from '@/components/ItemCard.vue'
+import { useFavoriteStore, type FavoriteItem } from '@/stores/favorite'
 
+const favoriteStore = useFavoriteStore()
 const groups = ref<GroupBuyItem[]>([])
 const loading = ref(false)
 const errorMessage = ref('')
@@ -24,6 +26,21 @@ async function loadGroupBuys() {
   } finally {
     loading.value = false
   }
+}
+
+function toFavorite(group: GroupBuyItem): FavoriteItem {
+  return {
+    id: group.id,
+    type: 'groupBuy',
+    title: group.title,
+    description: group.description,
+    tag: group.type,
+    location: group.location,
+  }
+}
+
+function toggleFavorite(group: GroupBuyItem) {
+  favoriteStore.toggleFavorite(toFavorite(group))
 }
 
 onMounted(loadGroupBuys)
@@ -65,6 +82,9 @@ onMounted(loadGroupBuys)
                 <el-progress :percentage="progress(group)" />
                 <span>{{ group.currentCount }}/{{ group.targetCount }} 人已加入</span>
               </div>
+              <el-button size="small" @click="toggleFavorite(group)">
+                {{ favoriteStore.isFavorite('groupBuy', group.id) ? '已收藏' : '收藏' }}
+              </el-button>
             </template>
           </ItemCard>
         </el-col>
@@ -83,7 +103,8 @@ onMounted(loadGroupBuys)
 }
 
 .progress-line {
-  width: 100%;
+  min-width: 180px;
+  flex: 1;
 }
 
 .progress-line span {

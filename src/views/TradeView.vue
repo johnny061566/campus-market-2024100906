@@ -4,7 +4,9 @@ import { onMounted, ref } from 'vue'
 import { getTrades, type TradeItem } from '@/api/trade'
 import EmptyState from '@/components/EmptyState.vue'
 import ItemCard from '@/components/ItemCard.vue'
+import { useFavoriteStore, type FavoriteItem } from '@/stores/favorite'
 
+const favoriteStore = useFavoriteStore()
 const products = ref<TradeItem[]>([])
 const loading = ref(false)
 const errorMessage = ref('')
@@ -26,6 +28,21 @@ async function loadTrades() {
   } finally {
     loading.value = false
   }
+}
+
+function toFavorite(product: TradeItem): FavoriteItem {
+  return {
+    id: product.id,
+    type: 'trade',
+    title: product.title,
+    description: product.description,
+    tag: product.category,
+    location: product.location,
+  }
+}
+
+function toggleFavorite(product: TradeItem) {
+  favoriteStore.toggleFavorite(toFavorite(product))
 }
 
 onMounted(loadTrades)
@@ -66,6 +83,9 @@ onMounted(loadTrades)
             <template #footer>
               <strong>{{ product.price }} 元</strong>
               <span>{{ product.publishedAt }}</span>
+              <el-button size="small" @click="toggleFavorite(product)">
+                {{ favoriteStore.isFavorite('trade', product.id) ? '已收藏' : '收藏' }}
+              </el-button>
             </template>
           </ItemCard>
         </el-col>
@@ -91,5 +111,9 @@ strong {
 span {
   color: #6b7280;
   font-size: 13px;
+}
+
+.product-card :deep(.item-card__footer) {
+  flex-wrap: wrap;
 }
 </style>
