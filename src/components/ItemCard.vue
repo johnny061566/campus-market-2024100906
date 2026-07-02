@@ -1,5 +1,7 @@
 <template>
   <el-card class="item-card" shadow="hover">
+    <img v-if="image" class="item-card__image" :src="image" :alt="imageAlt || title" loading="lazy" />
+
     <template #header>
       <div class="item-card__header">
         <h3>{{ title }}</h3>
@@ -34,11 +36,15 @@ withDefaults(
   defineProps<{
     title: string
     description: string
+    image?: string
+    imageAlt?: string
     tag?: string
     tagType?: TagProps['type']
     meta?: MetaItem[]
   }>(),
   {
+    image: '',
+    imageAlt: '',
     tag: '',
     tagType: undefined,
     meta: () => [],
@@ -49,7 +55,32 @@ withDefaults(
 <style scoped>
 .item-card {
   height: 100%;
+  overflow: hidden;
+  border: 1px solid rgb(223 230 239 / 90%);
   border-radius: 8px;
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.item-card:hover {
+  border-color: rgb(16 185 129 / 38%);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-2px);
+}
+
+.item-card :deep(.el-card__header) {
+  background: linear-gradient(90deg, rgb(16 185 129 / 10%), rgb(250 204 21 / 12%));
+}
+
+.item-card__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #eef2f7;
 }
 
 .item-card :deep(.el-card__body) {
@@ -66,7 +97,7 @@ withDefaults(
 
 .item-card__header h3 {
   margin: 0;
-  color: #111827;
+  color: var(--color-ink);
   font-size: 18px;
   line-height: 1.4;
 }
@@ -74,7 +105,7 @@ withDefaults(
 .item-card__description {
   min-height: 50px;
   margin: 0;
-  color: #6b7280;
+  color: var(--color-muted);
   line-height: 1.6;
 }
 

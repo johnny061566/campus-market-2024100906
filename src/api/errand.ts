@@ -11,6 +11,7 @@ export interface ErrandItem {
   publisher: string
   status: 'open' | 'closed' | 'done'
   description: string
+  image?: string
 }
 
 export type CreateErrandPayload = Omit<ErrandItem, 'id'>

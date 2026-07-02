@@ -1,4 +1,16 @@
 {
+  "users": [
+    {
+      "id": 1,
+      "username": "demo",
+      "password": "123456",
+      "name": "校园用户",
+      "college": "计算机学院",
+      "grade": "2023 级",
+      "avatar": "",
+      "bio": "热爱校园生活，喜欢分享闲置好物。"
+    }
+  ],
   "trades": [
     {
       "id": 1,
@@ -9,7 +21,7 @@
       "publisher": "李同学",
       "publishedAt": "2026-06-20 10:30",
       "location": "图书馆北门",
-      "image": "",
+      "image": "/images/market-books.svg",
       "status": "open",
       "description": "含少量课堂笔记，适合期末复习使用。"
     },
@@ -22,7 +34,7 @@
       "publisher": "周同学",
       "publishedAt": "2026-06-21 19:15",
       "location": "6号宿舍楼",
-      "image": "",
+      "image": "/images/desk-lamp.svg",
       "status": "open",
       "description": "三档亮度，USB 供电，晚自习和宿舍桌面都能用。"
     },
@@ -35,7 +47,7 @@
       "publisher": "陈同学",
       "publishedAt": "2026-06-22 12:40",
       "location": "东门车棚",
-      "image": "",
+      "image": "/images/campus-bike.svg",
       "status": "open",
       "description": "车况正常，适合校内通勤，支持线下看车。"
     },
@@ -48,7 +60,7 @@
       "publisher": "王同学",
       "publishedAt": "2026-06-23 08:20",
       "location": "教学楼 A 区",
-      "image": "",
+      "image": "/images/market-books.svg",
       "status": "done",
       "description": "包含近年真题和听力材料，适合备考。"
     },
@@ -61,12 +73,12 @@
       "publisher": "赵同学",
       "publishedAt": "2026-06-24 16:05",
       "location": "实验楼 2 楼",
-      "image": "",
+      "image": "/images/keyboard-tech.svg",
       "status": "closed",
       "description": "按键灵敏，适合平板或笔记本外接使用。"
     },
     {
-      "image": "",
+      "image": "/images/market-books.svg",
       "description": "用于验证 Day4 发布流程的数据。",
       "price": 9,
       "category": "学习资料",
@@ -88,7 +100,7 @@
       "condition": "1",
       "publisher": "校园用户",
       "publishedAt": "2026-07-01 09:07",
-      "image": "",
+      "image": "/images/market-books.svg",
       "id": 7
     },
     {
@@ -101,7 +113,7 @@
       "condition": "1",
       "publisher": "校园用户",
       "publishedAt": "2026-07-01 09:12",
-      "image": "",
+      "image": "/images/market-books.svg",
       "id": 8
     }
   ],
@@ -115,7 +127,8 @@
       "time": "2026-06-24 10:30",
       "contact": "李同学 13800000001",
       "description": "黑色卡套，内有校园卡和门禁卡。",
-      "status": "open"
+      "status": "open",
+      "image": "/images/lost-items.svg"
     },
     {
       "id": 2,
@@ -126,7 +139,8 @@
       "time": "2026-06-23 18:20",
       "contact": "食堂服务台",
       "description": "杯身有贴纸，已放在二食堂服务台。",
-      "status": "open"
+      "status": "open",
+      "image": "/images/lost-items.svg"
     },
     {
       "id": 3,
@@ -137,7 +151,8 @@
       "time": "2026-06-22 20:00",
       "contact": "王同学 13800000002",
       "description": "白色充电盒，可能落在操场看台第二排。",
-      "status": "closed"
+      "status": "closed",
+      "image": "/images/keyboard-tech.svg"
     },
     {
       "id": 4,
@@ -148,7 +163,8 @@
       "time": "2026-06-21 15:45",
       "contact": "B 楼物业前台",
       "description": "封面写有概率论复习提纲。",
-      "status": "done"
+      "status": "done",
+      "image": "/images/market-books.svg"
     },
     {
       "id": 5,
@@ -159,7 +175,8 @@
       "time": "2026-06-20 09:10",
       "contact": "陈同学 13800000003",
       "description": "灰色长柄伞，伞柄处有姓名贴。",
-      "status": "open"
+      "status": "open",
+      "image": "/images/lost-items.svg"
     }
   ],
   "groupBuys": [
@@ -173,7 +190,8 @@
       "location": "校门口自取",
       "publisher": "赵同学",
       "status": "open",
-      "description": "满 5 人免配送费，口味可备注。"
+      "description": "满 5 人免配送费，口味可备注。",
+      "image": "/images/food-fruit.svg"
     },
     {
       "id": 2,
@@ -185,7 +203,8 @@
       "location": "图书馆大厅",
       "publisher": "刘同学",
       "status": "open",
-      "description": "工作日早上 7:30 打卡，互相提醒。"
+      "description": "工作日早上 7:30 打卡，互相提醒。",
+      "image": "/images/group-campus.svg"
     },
     {
       "id": 3,
@@ -197,7 +216,8 @@
       "location": "体育馆 2 号场",
       "publisher": "孙同学",
       "status": "open",
-      "description": "费用 AA，已有球拍和羽毛球。"
+      "description": "费用 AA，已有球拍和羽毛球。",
+      "image": "/images/group-campus.svg"
     },
     {
       "id": 4,
@@ -209,7 +229,8 @@
       "location": "5号宿舍楼下",
       "publisher": "黄同学",
       "status": "done",
-      "description": "已成团，晚上统一取货。"
+      "description": "已成团，晚上统一取货。",
+      "image": "/images/food-fruit.svg"
     },
     {
       "id": 5,
@@ -221,7 +242,8 @@
       "location": "教学楼 C301",
       "publisher": "吴同学",
       "status": "open",
-      "description": "晚上安静自习，两小时专注打卡。"
+      "description": "晚上安静自习，两小时专注打卡。",
+      "image": "/images/market-books.svg"
     }
   ],
   "errands": [
@@ -235,7 +257,8 @@
       "deadline": "2026-06-29 20:00",
       "publisher": "林同学",
       "status": "open",
-      "description": "小件快递，顺路带回即可。"
+      "description": "小件快递，顺路带回即可。",
+      "image": "/images/errand-package.svg"
     },
     {
       "id": 2,
@@ -247,7 +270,8 @@
       "deadline": "2026-06-29 18:20",
       "publisher": "郑同学",
       "status": "open",
-      "description": "需要一份盖浇饭，费用另结。"
+      "description": "需要一份盖浇饭，费用另结。",
+      "image": "/images/food-fruit.svg"
     },
     {
       "id": 3,
@@ -259,7 +283,8 @@
       "deadline": "2026-06-30 09:30",
       "publisher": "唐同学",
       "status": "open",
-      "description": "已付款，只需报手机号取件。"
+      "description": "已付款，只需报手机号取件。",
+      "image": "/images/keyboard-tech.svg"
     },
     {
       "id": 4,
@@ -271,7 +296,8 @@
       "deadline": "2026-06-29 16:00",
       "publisher": "马同学",
       "status": "closed",
-      "description": "两本专业书，需今天下午归还。"
+      "description": "两本专业书，需今天下午归还。",
+      "image": "/images/market-books.svg"
     },
     {
       "id": 5,
@@ -283,7 +309,8 @@
       "deadline": "2026-06-30 12:00",
       "publisher": "何同学",
       "status": "open",
-      "description": "需凭取药单取药，可提前电话联系。"
+      "description": "需凭取药单取药，可提前电话联系。",
+      "image": "/images/errand-package.svg"
     }
   ]
 }

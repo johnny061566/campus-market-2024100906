@@ -4,21 +4,29 @@ const categories = [
     title: '二手交易',
     path: '/trades',
     description: '教材、数码、宿舍用品等闲置物品流转。',
+    image: '/images/market-books.svg',
+    tone: 'green',
   },
   {
     title: '失物招领',
     path: '/lostFounds',
     description: '登记丢失物品，也可以发布拾到信息。',
+    image: '/images/lost-items.svg',
+    tone: 'amber',
   },
   {
     title: '拼单搭子',
     path: '/groupBuys',
     description: '拼外卖、组队学习、活动搭子集中展示。',
+    image: '/images/group-campus.svg',
+    tone: 'blue',
   },
   {
     title: '跑腿委托',
     path: '/errands',
     description: '取快递、代买、临时帮忙等任务委托。',
+    image: '/images/errand-package.svg',
+    tone: 'orange',
   },
 ]
 </script>
@@ -38,10 +46,13 @@ const categories = [
         :sm="12"
         :md="6"
       >
-        <el-card class="section-card entrance-card" shadow="hover">
-          <h3>{{ category.title }}</h3>
-          <p>{{ category.description }}</p>
-          <router-link :to="category.path">进入查看</router-link>
+        <el-card class="section-card entrance-card" :class="`entrance-card--${category.tone}`" shadow="hover">
+          <img class="entrance-card__image" :src="category.image" :alt="category.title" loading="lazy" />
+          <div class="entrance-card__body">
+            <h3>{{ category.title }}</h3>
+            <p>{{ category.description }}</p>
+            <router-link :to="category.path">进入查看</router-link>
+          </div>
         </el-card>
       </el-col>
     </el-row>
@@ -50,12 +61,37 @@ const categories = [
 
 <style scoped>
 .entrance-card {
-  min-height: 176px;
   margin-bottom: 16px;
+  overflow: hidden;
+  border: 0;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.entrance-card :deep(.el-card__body) {
+  padding: 0;
+}
+
+.entrance-card:hover {
+  transform: translateY(-3px);
+}
+
+.entrance-card__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.entrance-card__body {
+  min-height: 166px;
+  padding: 18px;
 }
 
 .entrance-card h3 {
   margin: 0 0 10px;
+  color: #172033;
   font-size: 20px;
 }
 
@@ -67,7 +103,23 @@ const categories = [
 }
 
 .entrance-card a {
-  color: #409eff;
+  color: #172033;
   font-weight: 700;
+}
+
+.entrance-card--green {
+  background: linear-gradient(135deg, #ecfdf5, #ffffff);
+}
+
+.entrance-card--amber {
+  background: linear-gradient(135deg, #fefce8, #ffffff);
+}
+
+.entrance-card--blue {
+  background: linear-gradient(135deg, #eff6ff, #ffffff);
+}
+
+.entrance-card--orange {
+  background: linear-gradient(135deg, #fff7ed, #ffffff);
 }
 </style>

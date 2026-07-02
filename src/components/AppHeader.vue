@@ -7,13 +7,22 @@
       </div>
 
       <div class="header-actions">
-        <div class="user-summary">
-          <el-avatar :size="36">{{ userStore.displayName.slice(0, 2) }}</el-avatar>
+        <div v-if="userStore.isLoggedIn" class="user-summary">
+          <el-avatar :size="36" :src="userStore.currentUser?.avatar">
+            {{ userStore.displayName.slice(0, 2) }}
+          </el-avatar>
           <div>
             <strong>{{ userStore.displayName }}</strong>
             <span>{{ userStore.userDescription }}</span>
           </div>
+          <el-button text @click="handleLogout">退出</el-button>
         </div>
+
+        <div v-else class="auth-actions">
+          <el-button @click="goLogin">登录</el-button>
+          <el-button type="primary" plain @click="goRegister">注册</el-button>
+        </div>
+
         <el-button type="primary" @click="goPublish">发布信息</el-button>
       </div>
     </div>
@@ -31,12 +40,29 @@ const userStore = useUserStore()
 function goPublish() {
   router.push('/publish')
 }
+
+function goLogin() {
+  router.push('/login')
+}
+
+function goRegister() {
+  router.push('/register')
+}
+
+function handleLogout() {
+  userStore.logout()
+  router.push('/')
+}
 </script>
 
 <style scoped>
 .app-header {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  color: #ffffff;
+  background:
+    linear-gradient(135deg, rgb(23 32 51 / 96%), rgb(37 99 235 / 86%)),
+    linear-gradient(90deg, #10b981, #f97316);
+  border-bottom: 1px solid rgb(255 255 255 / 18%);
+  box-shadow: 0 18px 40px rgb(23 32 51 / 18%);
 }
 
 .header-inner {
@@ -51,14 +77,14 @@ function goPublish() {
 
 .eyebrow {
   margin: 0 0 6px;
-  color: #409eff;
+  color: #fde68a;
   font-size: 13px;
   font-weight: 700;
 }
 
 h1 {
   margin: 0;
-  color: #1f2937;
+  color: #ffffff;
   font-size: 28px;
   line-height: 1.2;
 }
@@ -73,6 +99,38 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 10%);
+  backdrop-filter: blur(10px);
+}
+
+.auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.auth-actions :deep(.el-button),
+.user-summary :deep(.el-button) {
+  color: #ffffff;
+}
+
+.auth-actions :deep(.el-button:not(.el-button--primary)) {
+  border-color: rgb(255 255 255 / 45%);
+  background: rgb(255 255 255 / 12%);
+}
+
+.auth-actions :deep(.el-button--primary.is-plain) {
+  color: #1f3a2f;
+  border-color: #fde68a;
+  background: #fde68a;
+}
+
+.header-actions > :deep(.el-button--primary) {
+  border-color: #f97316;
+  background: #f97316;
 }
 
 .user-summary div {
@@ -81,12 +139,12 @@ h1 {
 }
 
 .user-summary strong {
-  color: #111827;
+  color: #ffffff;
   font-size: 14px;
 }
 
 .user-summary span {
-  color: #6b7280;
+  color: rgb(255 255 255 / 75%);
   font-size: 12px;
 }
 

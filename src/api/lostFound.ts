@@ -10,6 +10,7 @@ export interface LostFoundItem {
   contact: string
   description: string
   status: 'open' | 'closed' | 'done'
+  image?: string
 }
 
 export type CreateLostFoundPayload = Omit<LostFoundItem, 'id'>

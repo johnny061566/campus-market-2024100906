@@ -11,6 +11,7 @@ export interface GroupBuyItem {
   publisher: string
   status: 'open' | 'closed' | 'done'
   description: string
+  image?: string
 }
 
 export type CreateGroupBuyPayload = Omit<GroupBuyItem, 'id'>

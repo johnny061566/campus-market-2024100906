@@ -137,6 +137,12 @@ function resetForm() {
 }
 
 async function handleSubmit() {
+  if (!userStore.isLoggedIn || !userStore.currentUser) {
+    ElMessage.warning('请先登录后再发布信息')
+    await router.push('/login')
+    return
+  }
+
   if (!validateForm()) {
     ElMessage.warning('请先补全必填信息')
     return

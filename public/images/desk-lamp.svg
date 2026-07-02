@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Desk lamp</title>
+  <desc id="desc">A bright study lamp on a dorm desk.</desc>
+  <rect width="900" height="620" fill="#f8fbff"/>
+  <rect x="96" y="404" width="708" height="86" rx="28" fill="#d6a86f"/>
+  <rect x="232" y="184" width="214" height="86" rx="43" fill="#2563eb"/>
+  <path d="M400 254 552 402" fill="none" stroke="#172033" stroke-width="26" stroke-linecap="round"/>
+  <path d="M316 270 224 402" fill="none" stroke="#172033" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="406" cy="258" r="34" fill="#10b981"/>
+  <circle cx="556" cy="402" r="34" fill="#10b981"/>
+  <path d="M260 184c24-58 76-94 142-94 48 0 92 20 122 54" fill="none" stroke="#facc15" stroke-width="22" stroke-linecap="round"/>
+  <path d="M596 402h112c28 0 50 22 50 50v38H544v-38c0-28 22-50 52-50Z" fill="#f97316"/>
+  <path d="M170 136h72M144 206h84M668 160h110M706 226h84" stroke="#93c5fd" stroke-width="16" stroke-linecap="round"/>
+</svg>

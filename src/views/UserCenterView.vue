@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 
 import { getErrands, type ErrandItem } from '@/api/errand'
@@ -51,6 +51,10 @@ function removeFavorite(item: FavoriteItem) {
 }
 
 function isCurrentPublisher(value: string) {
+  if (!userStore.isLoggedIn) {
+    return false
+  }
+
   return value.trim() === userStore.displayName
 }
 
@@ -103,6 +107,11 @@ function fromErrand(item: ErrandItem): MyPublishItem {
 }
 
 async function loadMyPublishes() {
+  if (!userStore.isLoggedIn) {
+    myPublishes.value = []
+    return
+  }
+
   publishLoading.value = true
 
   try {
@@ -126,7 +135,18 @@ async function loadMyPublishes() {
   }
 }
 
-onMounted(loadMyPublishes)
+watch(
+  () => userStore.isLoggedIn,
+  (isLoggedIn) => {
+    if (isLoggedIn) {
+      loadMyPublishes()
+      return
+    }
+
+    myPublishes.value = []
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -136,74 +156,85 @@ onMounted(loadMyPublishes)
       <p>展示用户资料、我的发布、收藏和消息处理入口。</p>
     </div>
 
-    <el-card class="section-card profile-card" shadow="never">
-      <el-avatar :size="64" :src="user.avatar">{{ userStore.displayName.slice(0, 2) }}</el-avatar>
-      <div>
-        <h3>{{ userStore.displayName }}</h3>
-        <p>{{ userStore.userDescription }}</p>
-        <p>{{ user.bio }}</p>
+    <el-card v-if="!userStore.isLoggedIn || !user" class="section-card login-card" shadow="never">
+      <h3>请先登录</h3>
+      <p>登录后可以查看个人资料、我的发布和收藏内容。</p>
+      <div class="login-actions">
+        <el-button type="primary" @click="$router.push('/login')">去登录</el-button>
+        <el-button @click="$router.push('/register')">注册账号</el-button>
       </div>
     </el-card>
 
-    <el-row :gutter="16">
-      <el-col v-for="stat in stats" :key="stat.label" :xs="24" :sm="8">
-        <el-card class="section-card stat-card" shadow="hover">
-          <span>{{ stat.label }}</span>
-          <strong>{{ stat.value }}</strong>
-        </el-card>
-      </el-col>
-    </el-row>
+    <template v-else>
+      <el-card class="section-card profile-card" shadow="never">
+        <el-avatar :size="64" :src="user.avatar">{{ userStore.displayName.slice(0, 2) }}</el-avatar>
+        <div>
+          <h3>{{ userStore.displayName }}</h3>
+          <p>{{ userStore.userDescription }}</p>
+          <p>{{ user.bio }}</p>
+        </div>
+      </el-card>
 
-    <el-row :gutter="16">
-      <el-col :xs="24" :md="12">
-        <el-card class="section-card list-card" shadow="never">
-          <template #header>
-            <h3>我的发布</h3>
-          </template>
+      <el-row :gutter="16">
+        <el-col v-for="stat in stats" :key="stat.label" :xs="24" :sm="8">
+          <el-card class="section-card stat-card" shadow="hover">
+            <span>{{ stat.label }}</span>
+            <strong>{{ stat.value }}</strong>
+          </el-card>
+        </el-col>
+      </el-row>
 
-          <div v-loading="publishLoading" class="publish-panel">
-            <el-empty v-if="!publishLoading && myPublishes.length === 0" description="暂无发布" />
+      <el-row :gutter="16">
+        <el-col :xs="24" :md="12">
+          <el-card class="section-card list-card" shadow="never">
+            <template #header>
+              <h3>我的发布</h3>
+            </template>
 
-            <div v-else class="publish-list">
-              <article v-for="item in myPublishes" :key="`${item.type}-${item.id}`">
+            <div v-loading="publishLoading" class="publish-panel">
+              <el-empty v-if="!publishLoading && myPublishes.length === 0" description="暂无发布" />
+
+              <div v-else class="publish-list">
+                <article v-for="item in myPublishes" :key="`${item.type}-${item.id}`">
+                  <div>
+                    <el-tag size="small">{{ favoriteTypeText[item.type] }}</el-tag>
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.description }}</p>
+                    <span>{{ item.tag }} · {{ item.location }} · {{ item.time }}</span>
+                  </div>
+                  <router-link :to="favoriteRouteMap[item.type]">查看</router-link>
+                </article>
+              </div>
+            </div>
+          </el-card>
+        </el-col>
+
+        <el-col :xs="24" :md="12">
+          <el-card class="section-card list-card" shadow="never">
+            <template #header>
+              <h3>我的收藏</h3>
+            </template>
+
+            <el-empty v-if="favoriteStore.favorites.length === 0" description="暂无收藏" />
+
+            <div v-else class="favorite-list">
+              <article v-for="item in favoriteStore.favorites" :key="`${item.type}-${item.id}`">
                 <div>
                   <el-tag size="small">{{ favoriteTypeText[item.type] }}</el-tag>
                   <h4>{{ item.title }}</h4>
                   <p>{{ item.description }}</p>
-                  <span>{{ item.tag }} · {{ item.location }} · {{ item.time }}</span>
+                  <span>{{ item.tag }} · {{ item.location }}</span>
                 </div>
-                <router-link :to="favoriteRouteMap[item.type]">查看</router-link>
+                <div class="favorite-actions">
+                  <router-link :to="favoriteRouteMap[item.type]">查看</router-link>
+                  <el-button size="small" text @click="removeFavorite(item)">取消收藏</el-button>
+                </div>
               </article>
             </div>
-          </div>
-        </el-card>
-      </el-col>
-
-      <el-col :xs="24" :md="12">
-        <el-card class="section-card list-card" shadow="never">
-          <template #header>
-            <h3>我的收藏</h3>
-          </template>
-
-          <el-empty v-if="favoriteStore.favorites.length === 0" description="暂无收藏" />
-
-          <div v-else class="favorite-list">
-            <article v-for="item in favoriteStore.favorites" :key="`${item.type}-${item.id}`">
-              <div>
-                <el-tag size="small">{{ favoriteTypeText[item.type] }}</el-tag>
-                <h4>{{ item.title }}</h4>
-                <p>{{ item.description }}</p>
-                <span>{{ item.tag }} · {{ item.location }}</span>
-              </div>
-              <div class="favorite-actions">
-                <router-link :to="favoriteRouteMap[item.type]">查看</router-link>
-                <el-button size="small" text @click="removeFavorite(item)">取消收藏</el-button>
-              </div>
-            </article>
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+          </el-card>
+        </el-col>
+      </el-row>
+    </template>
   </section>
 </template>
 
@@ -212,6 +243,19 @@ onMounted(loadMyPublishes)
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.login-card {
+  padding: 12px;
+}
+
+.login-card p {
+  margin-bottom: 18px;
+}
+
+.login-actions {
+  display: flex;
+  gap: 12px;
 }
 
 h3 {

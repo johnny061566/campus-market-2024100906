@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Campus errand package</title>
+  <desc id="desc">A delivery package moving across campus.</desc>
+  <rect width="900" height="620" fill="#f0fdf4"/>
+  <rect y="438" width="900" height="182" fill="#dcfce7"/>
+  <rect x="304" y="210" width="292" height="210" rx="24" fill="#d6a86f"/>
+  <path d="M304 266h292M450 210v210" stroke="#9a6b43" stroke-width="18"/>
+  <path d="M204 420h492" stroke="#172033" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="330" cy="462" r="52" fill="#2563eb"/>
+  <circle cx="570" cy="462" r="52" fill="#2563eb"/>
+  <circle cx="330" cy="462" r="22" fill="#bfdbfe"/>
+  <circle cx="570" cy="462" r="22" fill="#bfdbfe"/>
+  <path d="M142 262h104M116 330h130M652 176h104" stroke="#10b981" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="732" cy="256" r="58" fill="#facc15" opacity=".75"/>
+</svg>

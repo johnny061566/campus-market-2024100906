@@ -17,12 +17,12 @@ import AppNav from './AppNav.vue'
 <style scoped>
 .app-layout {
   min-height: 100vh;
-  background: #f5f7fb;
+  background: transparent;
 }
 
 .page-container {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 24px 0 40px;
+  padding: 28px 0 48px;
 }
 </style>

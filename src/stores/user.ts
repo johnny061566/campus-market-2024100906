@@ -1,48 +1,68 @@
 import { defineStore } from 'pinia'
 
-export interface CurrentUser {
-  id: number
-  name: string
-  college: string
-  grade: string
-  avatar: string
-  bio: string
-}
+import { getUsers, type User } from '@/api/user'
+
+const STORAGE_KEY = 'campus-market-current-user'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    isLoggedIn: true,
-    currentUser: {
-      id: 1,
-      name: '校园用户',
-      college: '计算机学院',
-      grade: '2023 级',
-      avatar: '',
-      bio: '热爱校园生活，喜欢分享闲置好物。',
-    } as CurrentUser,
+    isLoggedIn: false,
+    currentUser: null as User | null,
   }),
 
   getters: {
-    displayName: (state) => state.currentUser.name,
+    displayName: (state) => state.currentUser?.name || '未登录',
     userDescription: (state) => {
+      if (!state.currentUser) {
+        return '请先登录'
+      }
+
       return `${state.currentUser.college} · ${state.currentUser.grade}`
     },
   },
 
   actions: {
-    updateProfile(payload: Partial<CurrentUser>) {
-      this.currentUser = {
-        ...this.currentUser,
-        ...payload,
+    updateProfile(payload: Partial<User>) {
+      if (!this.currentUser) {
+        return
+      }
+
+      this.currentUser = { ...this.currentUser, ...payload }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.currentUser))
+    },
+
+    async login(username: string, password: string) {
+      const users = await getUsers()
+      const user = users.find((item) => item.username === username && item.password === password)
+
+      if (!user) {
+        throw new Error('账号或密码错误')
+      }
+
+      this.currentUser = user
+      this.isLoggedIn = true
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
+    },
+
+    restoreLogin() {
+      const raw = localStorage.getItem(STORAGE_KEY)
+
+      if (!raw) {
+        return
+      }
+
+      try {
+        this.currentUser = JSON.parse(raw) as User
+        this.isLoggedIn = true
+      } catch {
+        localStorage.removeItem(STORAGE_KEY)
       }
     },
 
     logout() {
+      this.currentUser = null
       this.isLoggedIn = false
-    },
-
-    login() {
-      this.isLoggedIn = true
+      localStorage.removeItem(STORAGE_KEY)
     },
   },
 })

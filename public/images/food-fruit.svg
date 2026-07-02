@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Food and fruit group order</title>
+  <desc id="desc">A warm meal and fruit for campus group orders.</desc>
+  <rect width="900" height="620" fill="#fff7ed"/>
+  <circle cx="450" cy="330" r="190" fill="#ffffff"/>
+  <circle cx="450" cy="330" r="144" fill="#fed7aa"/>
+  <circle cx="352" cy="312" r="44" fill="#ef4444"/>
+  <circle cx="448" cy="374" r="52" fill="#f97316"/>
+  <circle cx="538" cy="300" r="42" fill="#10b981"/>
+  <path d="M278 486h344" stroke="#d6a86f" stroke-width="26" stroke-linecap="round"/>
+  <path d="M640 170c50 22 78 64 78 124" fill="none" stroke="#facc15" stroke-width="22" stroke-linecap="round"/>
+  <path d="M172 158h170M148 222h118" stroke="#fb923c" stroke-width="18" stroke-linecap="round"/>
+</svg>

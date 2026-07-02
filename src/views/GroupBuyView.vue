@@ -1,15 +1,34 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 import { getGroupBuys, type GroupBuyItem } from '@/api/groupBuy'
 import EmptyState from '@/components/EmptyState.vue'
+import ErrorState from '@/components/ErrorState.vue'
 import ItemCard from '@/components/ItemCard.vue'
+import LoadingState from '@/components/LoadingState.vue'
+import SearchBar from '@/components/SearchBar.vue'
 import { useFavoriteStore, type FavoriteItem } from '@/stores/favorite'
 
 const favoriteStore = useFavoriteStore()
 const groups = ref<GroupBuyItem[]>([])
 const loading = ref(false)
 const errorMessage = ref('')
+const keyword = ref('')
+const fallbackGroupImage = '/images/group-campus.svg'
+
+const filteredGroups = computed(() => {
+  const text = keyword.value.trim().toLowerCase()
+
+  if (!text) {
+    return groups.value
+  }
+
+  return groups.value.filter((group) =>
+    [group.title, group.type, group.location, group.description, group.publisher].some((field) =>
+      field.toLowerCase().includes(text),
+    ),
+  )
+})
 
 function progress(group: GroupBuyItem) {
   return Math.min(100, Math.round((group.currentCount / group.targetCount) * 100))
@@ -43,6 +62,15 @@ function toggleFavorite(group: GroupBuyItem) {
   favoriteStore.toggleFavorite(toFavorite(group))
 }
 
+function handleEmptyAction() {
+  if (groups.value.length === 0) {
+    loadGroupBuys()
+    return
+  }
+
+  keyword.value = ''
+}
+
 onMounted(loadGroupBuys)
 </script>
 
@@ -53,22 +81,33 @@ onMounted(loadGroupBuys)
       <p>展示拼单、搭子和组队信息，让同学快速找到一起行动的人。</p>
     </div>
 
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" show-icon />
+    <SearchBar v-model="keyword" placeholder="搜索标题、类型、地点或描述" />
 
-    <div v-loading="loading" class="list-area">
-      <EmptyState
-        v-if="!loading && groups.length === 0"
-        description="暂无拼单搭子信息"
+    <div class="list-area">
+      <LoadingState v-if="loading" text="正在加载拼单搭子信息..." />
+
+      <ErrorState
+        v-else-if="errorMessage"
+        title="拼单搭子数据加载失败"
+        :description="errorMessage"
         action-text="重新加载"
         @action="loadGroupBuys"
       />
 
+      <EmptyState
+        v-else-if="filteredGroups.length === 0"
+        :description="groups.length === 0 ? '暂无拼单搭子信息' : '没有找到匹配的拼单搭子信息'"
+        :action-text="groups.length === 0 ? '重新加载' : '清空搜索'"
+        @action="handleEmptyAction"
+      />
+
       <el-row v-else :gutter="16">
-        <el-col v-for="group in groups" :key="group.id" :xs="24" :md="8">
+        <el-col v-for="group in filteredGroups" :key="group.id" :xs="24" :md="8">
           <ItemCard
             class="group-card"
             :title="group.title"
             :description="group.description"
+            :image="group.image || fallbackGroupImage"
             :tag="group.type"
             tag-type="primary"
             :meta="[
@@ -95,6 +134,7 @@ onMounted(loadGroupBuys)
 
 <style scoped>
 .list-area {
+  margin-top: 16px;
   min-height: 260px;
 }
 

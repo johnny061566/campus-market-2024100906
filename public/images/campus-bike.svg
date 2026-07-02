@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Campus bicycle</title>
+  <desc id="desc">A bicycle parked near campus paths.</desc>
+  <rect width="900" height="620" fill="#eef6ff"/>
+  <rect y="444" width="900" height="176" fill="#dcfce7"/>
+  <circle cx="282" cy="410" r="104" fill="none" stroke="#172033" stroke-width="24"/>
+  <circle cx="640" cy="410" r="104" fill="none" stroke="#172033" stroke-width="24"/>
+  <path d="M282 410h164l92-126 102 126H446l-82-126h174" fill="none" stroke="#2563eb" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M538 284h82M364 284l-34-64M330 220h86M636 264l44-58h58" fill="none" stroke="#f97316" stroke-width="22" stroke-linecap="round"/>
+  <path d="M132 182c96-74 206-110 330-110 104 0 198 28 282 84" fill="none" stroke="#10b981" stroke-width="20" stroke-linecap="round" opacity=".4"/>
+  <circle cx="742" cy="132" r="54" fill="#facc15" opacity=".75"/>
+</svg>

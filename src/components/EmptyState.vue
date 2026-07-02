@@ -31,8 +31,9 @@ defineEmits<{
   place-items: center;
   min-height: 240px;
   padding: 24px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: linear-gradient(135deg, #ffffff, #fefce8);
+  border: 1px solid rgb(250 204 21 / 24%);
   border-radius: 8px;
+  box-shadow: var(--shadow-card);
 }
 </style>

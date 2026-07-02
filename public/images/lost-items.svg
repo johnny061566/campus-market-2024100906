@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">Lost and found items</title>
+  <desc id="desc">Campus card, bottle, umbrella, and notes.</desc>
+  <rect width="900" height="620" fill="#fff7ed"/>
+  <rect x="120" y="146" width="240" height="150" rx="22" fill="#2563eb"/>
+  <circle cx="190" cy="220" r="36" fill="#bfdbfe"/>
+  <rect x="244" y="196" width="80" height="16" rx="8" fill="#bfdbfe"/>
+  <rect x="244" y="230" width="56" height="16" rx="8" fill="#bfdbfe"/>
+  <path d="M552 120h100c18 0 32 14 32 32v270c0 36-30 66-66 66h-32c-36 0-66-30-66-66V152c0-18 14-32 32-32Z" fill="#10b981"/>
+  <rect x="542" y="198" width="122" height="112" rx="16" fill="#d1fae5"/>
+  <path d="M226 440c72-104 196-104 268 0" fill="none" stroke="#f97316" stroke-width="28" stroke-linecap="round"/>
+  <path d="M360 440v78c0 24 18 42 42 42 20 0 36-12 42-30" fill="none" stroke="#f97316" stroke-width="28" stroke-linecap="round"/>
+  <rect x="416" y="306" width="168" height="118" rx="14" fill="#facc15"/>
+  <path d="M446 346h108M446 382h72" stroke="#92400e" stroke-width="14" stroke-linecap="round"/>
+</svg>

@@ -28,19 +28,37 @@ const activePath = computed(() => route.path)
 
 <style scoped>
 .app-nav {
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgb(255 255 255 / 86%);
+  border-bottom: 1px solid rgb(223 230 239 / 80%);
+  box-shadow: 0 8px 20px rgb(37 55 99 / 6%);
+  backdrop-filter: blur(14px);
 }
 
 .app-nav :deep(.el-menu) {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
+  background: transparent;
   border-bottom: 0;
   overflow-x: auto;
 }
 
 .app-nav :deep(.el-menu-item) {
+  color: #475569;
+  font-weight: 700;
   white-space: nowrap;
+}
+
+.app-nav :deep(.el-menu-item.is-active) {
+  color: #0f766e;
+  border-bottom-color: #10b981;
+}
+
+.app-nav :deep(.el-menu-item:hover) {
+  color: #ea580c;
+  background: rgb(249 115 22 / 8%);
 }
 
 .favorite-badge {
